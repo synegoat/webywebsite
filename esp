@@ -1,21 +1,69 @@
-local function updateEsp()
-    for player, esp in pairs(cache) do
-        local character, team = player.Character, player.Team
-        -- Skip teammates if Teamcheck is enabled
-        if character and (not ESP_SETTINGS.Teamcheck or (team and team ~= localPlayer.Team)) then
-            local rootPart = character:FindFirstChild("HumanoidRootPart")
-            local head = character:FindFirstChild("Head")
-            local humanoid = character:FindFirstChild("Humanoid")
-            local isBehindWall = ESP_SETTINGS.WallCheck and isPlayerBehindWall(player)
-            local shouldShow = not isBehindWall and ESP_SETTINGS.Enabled
-            if rootPart and head and humanoid and shouldShow then
-                -- Continue with ESP rendering code for non-teammates
-                local position, onScreen = camera:WorldToViewportPoint(rootPart.Position)
-                if onScreen then
-                    -- Code for drawing ESP elements like box, name, health, etc.
-                    -- (rest of the code for ESP rendering...)
-                end
-            end
-        end
-    end
-end
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Script is loading. Please allow 5 seconds.",
+    Text = "Thx you so much ;)",
+    Duration = 5,
+})
+
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/synegoat/webywebsite/refs/heads/main/website'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = " ",
+    LoadingTitle = " ",
+    LoadingSubtitle = " ",
+    ConfigurationSaving = {
+       Enabled = true,
+       FolderName = nil,
+       FileName = "GoatWare"
+    },
+    KeySystem = false,
+    KeySettings = {
+       Title = "Untitled",
+       Subtitle = "Key System",
+       Note = "No method of obtaining the key is provided",
+       FileName = "Key",
+       SaveKey = true,
+       GrabKeyFromSite = false,
+       Key = {"Hello"}
+    }
+})
+
+-- Visuals
+local VisualsTab = Window:CreateTab("Visuals", 4483362458)
+
+local Button = VisualsTab:CreateButton({
+   Name = "ESP",
+   Callback = function()
+      local success, ESP = pcall(function()
+         return loadstring(game:HttpGet("https://raw.githubusercontent.com/synegoat/webywebsite/refs/heads/main/esp"))()
+      end)
+
+      if success then
+         ESP.Enabled = true
+         ESP.ShowBox = true
+         ESP.BoxType = "Corner Box Esp"
+         ESP.ShowName = true
+         ESP.ShowHealth = true
+         ESP.ShowTracer = false  -- Tracers disabled
+         ESP.ShowDistance = true
+      else
+         print("Error loading ESP script: " .. ESP)
+      end
+   end,
+})
+
+local ColorPicker = VisualsTab:CreateColorPicker({
+    Name = "ESP Color",
+    Color = Color3.fromRGB(255,255,255),
+    Flag = "ColorPicker1",
+    Callback = function(Value)
+    end,
+})
+
+local Aim2Tab = Window:CreateTab("use this if u dont like my code :(", 4483362458)
+
+local Button = Aim2Tab:CreateButton({
+   Name = "This will open a new UI",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/ttwizz/Open-Aimbot/master/source.lua", true))()
+   end
+})
