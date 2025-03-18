@@ -1,0 +1,21 @@
+local function updateEsp()
+    for player, esp in pairs(cache) do
+        local character, team = player.Character, player.Team
+        -- Skip teammates if Teamcheck is enabled
+        if character and (not ESP_SETTINGS.Teamcheck or (team and team ~= localPlayer.Team)) then
+            local rootPart = character:FindFirstChild("HumanoidRootPart")
+            local head = character:FindFirstChild("Head")
+            local humanoid = character:FindFirstChild("Humanoid")
+            local isBehindWall = ESP_SETTINGS.WallCheck and isPlayerBehindWall(player)
+            local shouldShow = not isBehindWall and ESP_SETTINGS.Enabled
+            if rootPart and head and humanoid and shouldShow then
+                -- Continue with ESP rendering code for non-teammates
+                local position, onScreen = camera:WorldToViewportPoint(rootPart.Position)
+                if onScreen then
+                    -- Code for drawing ESP elements like box, name, health, etc.
+                    -- (rest of the code for ESP rendering...)
+                end
+            end
+        end
+    end
+end
